@@ -7,6 +7,23 @@ namespace PathCapitalizationCorrector
 {
     class Program
     {
+        //Stolen from Ants at http://stackoverflow.com/questions/478826/c-sharp-filepath-recasing
+        //Thanks man
+        static string GetProperDirectoryCapitalization(DirectoryInfo dirInfo)
+        {
+            DirectoryInfo parentDirInfo = dirInfo.Parent;
+            if (null == parentDirInfo)
+                return dirInfo.Name;
+            return Path.Combine(GetProperDirectoryCapitalization(parentDirInfo),
+                                parentDirInfo.GetDirectories(dirInfo.Name)[0].Name);
+        }
+        static string GetProperFilePathCapitalization(string filename)
+        {
+            FileInfo fileInfo = new FileInfo(filename);
+            DirectoryInfo dirInfo = fileInfo.Directory;
+            return Path.Combine(GetProperDirectoryCapitalization(dirInfo),
+                                dirInfo.GetFiles(fileInfo.Name)[0].Name);
+        }
         static void Main(string[] args)
         {
             if(args.Length == 1)
@@ -32,9 +49,9 @@ namespace PathCapitalizationCorrector
                             if (startquote != -1)
                                 try
                                 {
-                                    var filename = stuff.Substring(startquote, i - startquote);
+                                    var filename = stuff.Substring(startquote + 1, i - startquote - 1);
                                     if(File.Exists(filename))
-                                        Mappings.Add(filename, Path.GetFullPath(filename));
+                                        Mappings.Add(filename, GetProperFilePathCapitalization(Path.GetFullPath(filename)));
                                 }
                                 catch{ }
                             startquote = i;
