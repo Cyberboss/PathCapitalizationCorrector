@@ -17,7 +17,10 @@ namespace PathCapitalizationCorrector
                     Console.WriteLine("Opening: " + args[0]);
                     stuff = File.ReadAllText(args[0]);
                 }
-                catch { }
+                catch (Exception e){
+                    Console.WriteLine("Failed: " + e.ToString());
+                    return;
+                }
                 if (stuff != null)
                 {
                     IDictionary<string, string> Mappings = new Dictionary<string, string>();
@@ -44,6 +47,7 @@ namespace PathCapitalizationCorrector
                     }
 
                     File.WriteAllText(args[0], stuff);
+                    return;
                 }
             }
             Console.WriteLine("Usage: PathCaptializationCorrector <target file>");
