@@ -14,6 +14,7 @@ namespace PathCapitalizationCorrector
                 string stuff = null;
                 try
                 {
+                    Console.WriteLine("Opening: " + args[0]);
                     stuff = File.ReadAllText(args[0]);
                 }
                 catch { }
@@ -36,8 +37,11 @@ namespace PathCapitalizationCorrector
                             startquote = i;
                         }
                     }
-                    foreach(var m in Mappings)
+                    foreach (var m in Mappings)
+                    {
                         stuff.Replace(m.Key, m.Value);
+                        Console.WriteLine("Replaced: " + m.Key + " with " + m.Value);
+                    }
 
                     File.WriteAllText(args[0], stuff);
                 }
