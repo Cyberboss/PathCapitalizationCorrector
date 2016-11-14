@@ -59,7 +59,7 @@ namespace PathCapitalizationCorrector
                     }
                     foreach (var m in Mappings)
                     {
-                        stuff.Replace(m.Key, m.Value);
+                        stuff = stuff.Replace(m.Key, m.Value);
                         Console.WriteLine("Replaced: " + m.Key + " with " + m.Value);
                     }
 
